@@ -1,44 +1,30 @@
 import * as React from 'react';
 import { NextPage } from 'next';
-
+import ToDoContext from '../components/ToDoContext';
 import { ToDo } from '../interfaces';
 import Container from '../components/Container';
 import ToDoList from '../components/ToDoList';
 
-type Props = {
-  todos: ToDo[];
-};
-
-const Index: NextPage<Props> = props => {
+const Index: NextPage = () => {
   const title = 'ToDo';
   const content = (
-    <>
-      <div className="content">
-        <ToDoList todos={props.todos} />
-      </div>
-      <style jsx>{`
-        .content {
-          padding: 60px 0;
-        }
-      `}</style>
-    </>
+    <ToDoContext.Consumer>
+      {(context): JSX.Element => (
+        <>
+          <div className="content">
+            <ToDoList todos={context.todos as ToDo[]} />
+          </div>
+          <style jsx>{`
+            .content {
+              padding: 60px 0;
+            }
+          `}</style>
+        </>
+      )}
+    </ToDoContext.Consumer>
   );
 
   return <Container title={title} content={content} />;
-};
-
-Index.getInitialProps = (): Props => {
-  return {
-    todos: [
-      {
-        id: 1,
-        title: 'タイトル',
-        description: '説明テキスト',
-        deadline: '2020-01-11',
-        isComplete: false
-      }
-    ]
-  };
 };
 
 export default Index;
