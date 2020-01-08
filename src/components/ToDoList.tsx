@@ -17,10 +17,10 @@ const ToDoList: React.FC<Props> = props => {
       <div className="todo-list">{items}</div>
       <style jsx>{`
         .todo-list {
-          display: flex;
-          flex-wrap: wrap;
-          max-width: calc(100% - 40px);
-          margin: 30px auto 0;
+          max-width: 800px;
+          margin: 0 auto;
+          padding: 0 20px;
+          box-sizing: border-box;
         }
       `}</style>
     </>

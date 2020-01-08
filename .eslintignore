@@ -2,3 +2,5 @@ node_modules
 package.json
 public
 **/__tests__
+.*
+*.config.js
