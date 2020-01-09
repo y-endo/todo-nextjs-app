@@ -14,7 +14,7 @@ const ToDoList: React.FC<Props> = props => {
 
   return (
     <>
-      <div className="todo-list">{items}</div>
+      <div className="todo-list">{items.length === 0 ? <p>タスクは有りません。</p> : items}</div>
       <style jsx>{`
         .todo-list {
           max-width: 800px;

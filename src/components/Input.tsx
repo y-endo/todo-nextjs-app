@@ -1,15 +1,9 @@
 import * as React from 'react';
 
-import { ToDo } from '../interfaces';
+import AppContext from '../components/AppContext';
 
-type Props = {
-  latestId: number;
-  setLatestId: React.Dispatch<React.SetStateAction<number>>;
-  todos: ToDo[];
-  setTodos: React.Dispatch<React.SetStateAction<ToDo[]>>;
-};
-
-const Input: React.FC<Props> = props => {
+const Input: React.FC = () => {
+  const [appState, setAppState] = React.useContext(AppContext);
   const inputTitle = React.useRef<HTMLInputElement>(null);
   const inputDescription = React.useRef<HTMLTextAreaElement>(null);
   const inputDeadline = React.useRef<HTMLInputElement>(null);
@@ -17,32 +11,42 @@ const Input: React.FC<Props> = props => {
   function handleSubmit(event: React.FormEvent): void {
     event.preventDefault();
 
-    if (inputTitle === null || inputTitle.current === null) return;
-    if (inputDescription === null || inputDescription.current === null) return;
-    if (inputDeadline === null || inputDeadline.current === null) return;
+    if (
+      inputTitle === null ||
+      inputTitle.current === null ||
+      inputDescription === null ||
+      inputDescription.current === null ||
+      inputDeadline === null ||
+      inputDeadline.current === null ||
+      appState.latestId === void 0 ||
+      appState.todos === void 0
+    )
+      return;
 
     const title = inputTitle.current.value.trim();
-    const description = inputDescription.current.value.trim();
-    const deadline = inputDeadline.current.value;
+    const description = (inputDescription.current.value || '').trim();
+    const deadline = inputDeadline.current.value || '';
 
-    if (title !== '' && description !== '') {
-      const id = props.latestId + 1;
+    if (title === '') return;
 
-      props.setTodos(
-        props.todos.concat({
+    const id = appState.latestId + 1;
+
+    setAppState({
+      todos: [
+        {
           id,
           title,
           description,
           deadline,
           isComplete: false
-        })
-      );
-      props.setLatestId(id);
+        }
+      ].concat(appState.todos),
+      latestId: id
+    });
 
-      inputTitle.current.value = '';
-      inputDescription.current.value = '';
-      inputDeadline.current.value = '';
-    }
+    inputTitle.current.value = '';
+    inputDescription.current.value = '';
+    inputDeadline.current.value = '';
   }
 
   return (
@@ -51,9 +55,9 @@ const Input: React.FC<Props> = props => {
         <label htmlFor="input-title">タスク名</label>
         <input type="text" ref={inputTitle} placeholder="タスク名" id="input-title" required />
         <label htmlFor="input-description">タスク内容</label>
-        <textarea placeholder="内容" ref={inputDescription} id="input-description" required />
+        <textarea placeholder="内容" ref={inputDescription} id="input-description" />
         <label htmlFor="input-deadline">期限日</label>
-        <input type="date" ref={inputDeadline} id="input-deadline" required />
+        <input type="date" ref={inputDeadline} id="input-deadline" />
         <button>登録</button>
       </form>
       <style jsx>{`

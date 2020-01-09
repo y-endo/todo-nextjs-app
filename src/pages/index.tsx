@@ -1,27 +1,24 @@
 import * as React from 'react';
 import { NextPage } from 'next';
-import ToDoContext from '../components/ToDoContext';
+import AppContext from '../components/AppContext';
 import { ToDo } from '../interfaces';
 import Container from '../components/Container';
 import ToDoList from '../components/ToDoList';
 
 const Index: NextPage = () => {
+  const [appState] = React.useContext(AppContext);
   const title = 'ToDo';
   const content = (
-    <ToDoContext.Consumer>
-      {(context): JSX.Element => (
-        <>
-          <div className="content">
-            <ToDoList todos={context.todos as ToDo[]} />
-          </div>
-          <style jsx>{`
-            .content {
-              padding: 60px 0;
-            }
-          `}</style>
-        </>
-      )}
-    </ToDoContext.Consumer>
+    <>
+      <div className="content">
+        <ToDoList todos={appState.todos as ToDo[]} />
+      </div>
+      <style jsx>{`
+        .content {
+          padding: 60px 0;
+        }
+      `}</style>
+    </>
   );
 
   return <Container title={title} content={content} />;

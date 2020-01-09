@@ -1,21 +1,14 @@
 import * as React from 'react';
 import App, { Container } from 'next/app';
-import ToDoContext from '../components/ToDoContext';
+import AppContext from '../components/AppContext';
 
 export default class extends App {
   constructor(props: any) {
     super(props);
 
     this.state = {
-      todos: [
-        {
-          id: 1,
-          title: 'タイトル',
-          description: '説明テキスト',
-          deadline: '2020-01-11',
-          isComplete: false
-        }
-      ]
+      latestId: 0,
+      todos: []
     };
   }
 
@@ -24,9 +17,9 @@ export default class extends App {
 
     return (
       <Container>
-        <ToDoContext.Provider value={this.state}>
+        <AppContext.Provider value={[this.state, this.setState.bind(this)]}>
           <Component {...pageProps} />
-        </ToDoContext.Provider>
+        </AppContext.Provider>
       </Container>
     );
   }

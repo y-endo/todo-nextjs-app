@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import Link from 'next/link';
 import { ToDo } from '../interfaces';
 
 type Props = {
@@ -9,22 +9,36 @@ type Props = {
 const ToDoListItem: React.FC<Props> = ({ todo }) => (
   <>
     <div className="todo-list-item">
-      <p className="title">{todo.title}</p>
-      <p className="deadline">
-        <input type="date" value={todo.deadline} readOnly disabled />
-      </p>
+      <Link href={`/task/${todo.id}`}>
+        <a>
+          <p className="title">{todo.title}</p>
+          {todo.deadline !== '' && (
+            <p className="deadline">
+              <input type="date" value={todo.deadline} readOnly disabled />
+            </p>
+          )}
+        </a>
+      </Link>
     </div>
     <style jsx>{`
       .todo-list-item {
         margin-top: 10px;
-        padding: 10px;
         border: solid 1px #ccc;
-        box-sizing: border-box;
 
         &:first-child {
           margin-top: 0;
         }
       }
+
+      a {
+        display: block;
+        padding: 10px;
+      }
+
+      .title {
+        margin-top: 0;
+      }
+
       input[type='date'] {
         border: solid 1px #ccc;
       }
