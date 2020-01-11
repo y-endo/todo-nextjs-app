@@ -11,7 +11,7 @@ const Navigation: React.FC = () => {
         <Link href="/">
           <a className={router.route === '/' ? 'current' : ''}>HOME</a>
         </Link>
-        <Link href="/register/">
+        <Link href="/register">
           <a className={router.route === '/register' ? 'current' : ''}>登録</a>
         </Link>
       </nav>

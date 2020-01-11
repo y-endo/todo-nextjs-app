@@ -1,4 +1,4 @@
 const withCSS = require('@zeit/next-css');
 module.exports = withCSS({
-  pageExtensions: ['tsx']
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx']
 });

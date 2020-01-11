@@ -11,7 +11,11 @@
   "author": "YukiEndo",
   "license": "MIT",
   "dependencies": {
+    "@apollo/client": "^3.0.0-beta.20",
     "@zeit/next-css": "^1.0.1",
+    "apollo-server-micro": "^2.9.16",
+    "graphql": "^14.5.8",
+    "isomorphic-unfetch": "^3.0.0",
     "next": "^9.1.7",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"

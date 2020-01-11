@@ -9,7 +9,7 @@ type Props = {
 const ToDoListItem: React.FC<Props> = ({ todo }) => (
   <>
     <div className="todo-list-item">
-      <Link href={`/task/${todo.id}`}>
+      <Link href="/task/[id]" as={`/task/${todo.id}`}>
         <a>
           <p className="title">{todo.title}</p>
           {todo.deadline !== '' && (

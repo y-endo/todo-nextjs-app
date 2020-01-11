@@ -1,6 +1,9 @@
+import 'isomorphic-unfetch';
 import * as React from 'react';
-import App, { Container } from 'next/app';
+import App from 'next/app';
 import AppContext from '../components/AppContext';
+import { ApolloProvider, gql } from '@apollo/client';
+import ApolloClient from '../components/ApolloClient';
 
 export default class extends App {
   constructor(props: any) {
@@ -12,15 +15,40 @@ export default class extends App {
     };
   }
 
+  // ルートのdidMount（最初の一回だけ実行される）
+  async componentDidMount(): Promise<void> {
+    // GraphQLで初期stateをとってくる
+    const query = gql`
+      {
+        latestId
+        todos {
+          id
+          title
+          description
+          deadline
+          isComplete
+        }
+      }
+    `;
+
+    const queryResult = await ApolloClient.query({ query });
+    const { latestId, todos } = queryResult.data;
+
+    this.setState({
+      latestId,
+      todos
+    });
+  }
+
   render(): JSX.Element {
     const { Component, pageProps } = this.props;
 
     return (
-      <Container>
+      <ApolloProvider client={ApolloClient}>
         <AppContext.Provider value={[this.state, this.setState.bind(this)]}>
           <Component {...pageProps} />
         </AppContext.Provider>
-      </Container>
+      </ApolloProvider>
     );
   }
 }
