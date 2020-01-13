@@ -6,7 +6,7 @@ type StateType = {
   todos?: ToDo[];
 };
 
-type ContextType = [StateType, (state: StateType) => void];
+type ContextType = [StateType, () => void];
 
 const AppContext = React.createContext<ContextType>([{}, () => ({})]);
 

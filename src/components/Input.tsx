@@ -1,14 +1,24 @@
 import * as React from 'react';
+import { ToDoParts } from '../utils/fragment';
+import { gql, useMutation } from '@apollo/client';
 
 import AppContext from '../components/AppContext';
 
 const Input: React.FC = () => {
-  const [appState, setAppState] = React.useContext(AppContext);
+  const [appState, queryState] = React.useContext(AppContext);
   const inputTitle = React.useRef<HTMLInputElement>(null);
   const inputDescription = React.useRef<HTMLTextAreaElement>(null);
   const inputDeadline = React.useRef<HTMLInputElement>(null);
+  const [addToDo] = useMutation(gql`
+    mutation addToDo($title: String!, $description: String, $deadline: String) {
+      addToDo(title: $title, description: $description, deadline: $deadline) {
+        ...ToDoParts
+      }
+    }
+    ${ToDoParts}
+  `);
 
-  function handleSubmit(event: React.FormEvent): void {
+  async function handleSubmit(event: React.FormEvent): Promise<void> {
     event.preventDefault();
 
     if (
@@ -18,7 +28,6 @@ const Input: React.FC = () => {
       inputDescription.current === null ||
       inputDeadline === null ||
       inputDeadline.current === null ||
-      appState.latestId === void 0 ||
       appState.todos === void 0
     )
       return;
@@ -29,20 +38,14 @@ const Input: React.FC = () => {
 
     if (title === '') return;
 
-    const id = appState.latestId + 1;
-
-    setAppState({
-      todos: [
-        {
-          id,
-          title,
-          description,
-          deadline,
-          isComplete: false
-        }
-      ].concat(appState.todos),
-      latestId: id
+    await addToDo({
+      variables: {
+        title,
+        description,
+        deadline
+      }
     });
+    queryState();
 
     inputTitle.current.value = '';
     inputDescription.current.value = '';

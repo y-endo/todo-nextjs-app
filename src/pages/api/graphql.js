@@ -1,18 +1,11 @@
+import { LatestIdModel, ToDoModel } from '../../utils/Database';
 import { ApolloServer, gql } from 'apollo-server-micro';
 
-const latestId = 9;
-const todos = [];
-for (let i = 0; i < 10; i++) {
-  todos.push({
-    id: i,
-    title: 'タイトル' + i,
-    description: '説明' + i,
-    deadline: '2020-01-01',
-    isComplete: false
-  });
-}
-
 const typeDefs = gql`
+  type LatestId {
+    latestId: Int!
+  }
+
   type ToDo {
     id: Int!
     title: String!
@@ -22,21 +15,50 @@ const typeDefs = gql`
   }
 
   type Query {
-    latestId: Int
+    latestId: LatestId
     todo(id: Int): ToDo
-    todos: [ToDo]
+    todoAll: [ToDo]
+  }
+
+  type Mutation {
+    addToDo(title: String!, description: String, deadline: String): ToDo
+  }
+
+  type Subscription {
+    todoAdded: ToDo
   }
 `;
 
 const resolvers = {
   Query: {
-    latestId: () => latestId,
-    todo: (_, args) => {
-      const found = todos.find(todo => todo.id === args.id) || null;
+    latestId: async () => {
+      const latestId = await LatestIdModel.findOne();
 
-      return found;
+      return latestId;
     },
-    todos: () => todos
+    todo: async (_, args) => {
+      const todo = await ToDoModel.findOne({ id: args.id });
+
+      return todo;
+    },
+    todoAll: async () => {
+      const todos = await ToDoModel.find();
+
+      return todos;
+    }
+  },
+  Mutation: {
+    addToDo: async (_, args) => {
+      // latestIdをインクリメント、更新後のid取得
+      await LatestIdModel.updateOne({}, { $inc: { latestId: 1 } });
+      const latestId = await LatestIdModel.findOne();
+
+      // todoを保存
+      const todo = new ToDoModel({ ...args, id: latestId.latestId, isComplete: false });
+      await todo.save();
+
+      return todo;
+    }
   }
 };
 
