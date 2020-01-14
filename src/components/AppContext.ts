@@ -2,12 +2,11 @@ import * as React from 'react';
 import { ToDo } from '../interfaces';
 
 type StateType = {
-  latestId?: number;
-  todos?: ToDo[];
+  todoAll?: ToDo[];
 };
 
-type ContextType = [StateType, () => void];
+type ContextType = { state: StateType; queryState: () => void };
 
-const AppContext = React.createContext<ContextType>([{}, () => ({})]);
+const AppContext = React.createContext<ContextType>({ state: {}, queryState: () => ({}) });
 
 export default AppContext;

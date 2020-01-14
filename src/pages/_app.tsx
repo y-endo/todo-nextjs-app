@@ -5,13 +5,18 @@ import AppContext from '../components/AppContext';
 import { ApolloProvider, gql } from '@apollo/client';
 import ApolloClient from '../utils/ApolloClient';
 import { ToDoParts } from '../utils/fragment';
+import { ToDo } from '../interfaces';
 
-export default class extends App {
+type State = {
+  todoAll: ToDo[];
+};
+
+export default class extends App<any, any, State> {
   constructor(props: any) {
     super(props);
 
     this.state = {
-      todos: []
+      todoAll: []
     };
   }
 
@@ -35,7 +40,7 @@ export default class extends App {
     const { todoAll } = queryResult.data;
 
     this.setState({
-      todos: todoAll
+      todoAll
     });
   }
 
@@ -44,7 +49,7 @@ export default class extends App {
 
     return (
       <ApolloProvider client={ApolloClient}>
-        <AppContext.Provider value={[this.state, this.queryState.bind(this)]}>
+        <AppContext.Provider value={{ state: this.state, queryState: this.queryState.bind(this) }}>
           <Component {...pageProps} />
         </AppContext.Provider>
       </ApolloProvider>

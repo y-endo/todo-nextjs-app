@@ -5,7 +5,7 @@ import { gql, useMutation } from '@apollo/client';
 import AppContext from '../components/AppContext';
 
 const Input: React.FC = () => {
-  const [appState, queryState] = React.useContext(AppContext);
+  const { queryState } = React.useContext(AppContext);
   const inputTitle = React.useRef<HTMLInputElement>(null);
   const inputDescription = React.useRef<HTMLTextAreaElement>(null);
   const inputDeadline = React.useRef<HTMLInputElement>(null);
@@ -27,8 +27,7 @@ const Input: React.FC = () => {
       inputDescription === null ||
       inputDescription.current === null ||
       inputDeadline === null ||
-      inputDeadline.current === null ||
-      appState.todos === void 0
+      inputDeadline.current === null
     )
       return;
 
@@ -76,7 +75,8 @@ const Input: React.FC = () => {
           display: block;
           font-size: 1.6rem;
           margin-top: 30px;
-          padding-left: 7px;
+          padding: 5px 0 5px 7px;
+          line-height: 1;
           border-left: solid 3px #5432fc;
 
           &:first-child {
@@ -99,6 +99,7 @@ const Input: React.FC = () => {
 
         textarea {
           height: 100px;
+          resize: vertical;
         }
 
         button {

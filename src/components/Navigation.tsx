@@ -14,6 +14,9 @@ const Navigation: React.FC = () => {
         <Link href="/register">
           <a className={router.route === '/register' ? 'current' : ''}>登録</a>
         </Link>
+        <Link href="/search">
+          <a className={router.route === '/search' ? 'current' : ''}>検索</a>
+        </Link>
       </nav>
       <style jsx>{`
         nav {

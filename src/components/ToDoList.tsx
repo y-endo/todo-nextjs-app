@@ -4,11 +4,11 @@ import { ToDo } from '../interfaces';
 import ToDoListItem from './ToDoListItem';
 
 type Props = {
-  todos: ToDo[];
+  todoList: ToDo[];
 };
 
 const ToDoList: React.FC<Props> = props => {
-  const items = props.todos.map(todo => {
+  const items = props.todoList.map(todo => {
     return <ToDoListItem key={todo.id} todo={todo} />;
   });
 

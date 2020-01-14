@@ -1,3 +1,4 @@
+import { format, startOfMonth, endOfMonth } from 'date-fns';
 import { LatestIdModel, ToDoModel } from '../../utils/Database';
 import { ApolloServer, gql } from 'apollo-server-micro';
 
@@ -18,14 +19,13 @@ const typeDefs = gql`
     latestId: LatestId
     todo(id: Int): ToDo
     todoAll: [ToDo]
+    todoMonth(year: Int!, month: Int!): [ToDo]
+    todoDay(year: Int!, month: Int!, date: Int!): [ToDo]
+    todoDead: [ToDo]
   }
 
   type Mutation {
     addToDo(title: String!, description: String, deadline: String): ToDo
-  }
-
-  type Subscription {
-    todoAdded: ToDo
   }
 `;
 
@@ -43,6 +43,26 @@ const resolvers = {
     },
     todoAll: async () => {
       const todos = await ToDoModel.find();
+
+      return todos;
+    },
+    todoMonth: async (_, args) => {
+      const date = new Date(args.year, args.month - 1);
+      const start = format(startOfMonth(date), 'yyyy-MM-dd');
+      const end = format(endOfMonth(date), 'yyyy-MM-dd');
+      const todos = await ToDoModel.find({ deadline: { $gte: start, $lte: end } });
+
+      return todos;
+    },
+    todoDay: async (_, args) => {
+      const current = format(new Date(args.year, args.month - 1, args.date), 'yyyy-MM-dd');
+      const todos = await ToDoModel.find({ deadline: current });
+
+      return todos;
+    },
+    todoDead: async (_, args) => {
+      const today = format(new Date(), 'yyyy-MM-dd');
+      const todos = await ToDoModel.find({ deadline: { $lt: today } });
 
       return todos;
     }
