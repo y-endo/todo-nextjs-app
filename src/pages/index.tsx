@@ -17,7 +17,7 @@ type Props = {
 };
 
 const Index: NextPage<Props> = props => {
-  const title = 'ToDo';
+  const title = 'ホーム';
   const content = (
     <>
       <div className="content">
@@ -28,7 +28,7 @@ const Index: NextPage<Props> = props => {
       </div>
       <style jsx>{`
         .content {
-          padding: 60px 0;
+          padding: 60px 20px;
         }
 
         .title {

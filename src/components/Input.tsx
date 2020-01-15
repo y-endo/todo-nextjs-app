@@ -18,7 +18,7 @@ const Input: React.FC = () => {
     ${ToDoParts}
   `);
 
-  async function handleSubmit(event: React.FormEvent): Promise<void> {
+  const handleSubmit = async (event: React.FormEvent): Promise<void> => {
     event.preventDefault();
 
     if (
@@ -49,7 +49,7 @@ const Input: React.FC = () => {
     inputTitle.current.value = '';
     inputDescription.current.value = '';
     inputDeadline.current.value = '';
-  }
+  };
 
   return (
     <>
@@ -109,9 +109,10 @@ const Input: React.FC = () => {
           border: solid 1px #5432fc;
           background: #5432fc;
           color: #fff;
-          padding: 10px 0;
+          padding: 12px 0;
           font-size: 1.6rem;
           font-weight: bold;
+          line-height: 1;
           border-radius: 20px;
           cursor: pointer;
           transition: background-color 0.15s, color 0.15s;

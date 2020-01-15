@@ -7,13 +7,13 @@ import ToDoList from '../components/ToDoList';
 
 const Index: NextPage = () => {
   const { state } = React.useContext(AppContext);
-  const title = 'ToDo 検索';
+  const title = '検索';
   const content = (
     <>
       <div className="content">{/* <ToDoList todoList={state.todoMonth as ToDo[]} /> */}</div>
       <style jsx>{`
         .content {
-          padding: 60px 0;
+          padding: 60px 20px;
         }
       `}</style>
     </>

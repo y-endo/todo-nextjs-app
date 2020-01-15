@@ -4,7 +4,7 @@ import Container from '../components/Container';
 import Input from '../components/Input';
 
 const Register: NextPage = () => {
-  const title = 'ToDo 登録';
+  const title = '登録';
   const content = (
     <>
       <div className="content">
@@ -12,7 +12,7 @@ const Register: NextPage = () => {
       </div>
       <style jsx>{`
         .content {
-          padding: 60px 0;
+          padding: 60px 20px;
         }
       `}</style>
     </>

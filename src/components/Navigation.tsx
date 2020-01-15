@@ -9,7 +9,7 @@ const Navigation: React.FC = () => {
     <>
       <nav>
         <Link href="/">
-          <a className={router.route === '/' ? 'current' : ''}>HOME</a>
+          <a className={router.route === '/' ? 'current' : ''}>ホーム</a>
         </Link>
         <Link href="/register">
           <a className={router.route === '/register' ? 'current' : ''}>登録</a>

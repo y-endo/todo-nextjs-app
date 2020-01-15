@@ -9,6 +9,7 @@ type Props = {
 const ToDoListItem: React.FC<Props> = ({ todo }) => (
   <>
     <div className="todo-list-item">
+      <input type="checkbox" />
       <Link href="/task/[id]" as={`/task/${todo.id}`}>
         <a>
           <p className="title">{todo.title}</p>
@@ -18,6 +19,7 @@ const ToDoListItem: React.FC<Props> = ({ todo }) => (
     </div>
     <style jsx>{`
       .todo-list-item {
+        position: relative;
         margin-top: 15px;
         border: solid 1px #ccc;
 
@@ -26,9 +28,37 @@ const ToDoListItem: React.FC<Props> = ({ todo }) => (
         }
       }
 
+      input[type='checkbox'] {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        width: 20px;
+        height: 20px;
+        margin-top: -10px;
+        outline: none;
+        cursor: pointer;
+
+        &::before {
+          content: '';
+          display: block;
+          width: 100%;
+          height: 100%;
+          border: solid 1px #ccc;
+          box-sizing: border-box;
+          border-radius: 50%;
+        }
+
+        &:checked {
+          &::before {
+            background: #5432fc;
+            border-color: #5432fc;
+          }
+        }
+      }
+
       a {
         display: flex;
-        padding: 10px 15px;
+        padding: 10px 15px 10px 40px;
       }
 
       .title {
