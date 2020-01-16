@@ -1,0 +1,33 @@
+type LatestId {
+  latestId: Int!
+}
+
+type ToDo {
+  id: Int!
+  title: String!
+  description: String
+  deadline: String
+  isComplete: Boolean!
+}
+
+input EditToDo {
+  id: Int!
+  title: String
+  description: String
+  deadline: String
+  isComplete: Boolean
+}
+
+type Query {
+  latestId: LatestId
+  todo(id: Int): ToDo
+  todoAll: [ToDo]
+  todoMonth(year: Int!, month: Int!): [ToDo]
+  todoDay(year: Int!, month: Int!, date: Int!): [ToDo]
+  todoDead: [ToDo]
+}
+
+type Mutation {
+  addToDo(title: String!, description: String, deadline: String): ToDo
+  editToDo(todo: EditToDo): Boolean
+}

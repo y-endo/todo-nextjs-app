@@ -1,11 +1,11 @@
 import 'isomorphic-unfetch';
 import * as React from 'react';
 import App from 'next/app';
-import AppContext from '../components/AppContext';
+import AppContext from '~/components/AppContext';
 import { ApolloProvider, gql } from '@apollo/client';
-import ApolloClient from '../utils/ApolloClient';
-import { ToDoParts } from '../utils/fragment';
-import { ToDo } from '../interfaces';
+import ApolloClient from '~/utils/ApolloClient';
+import { ToDoParts } from '~/utils/fragment';
+import { ToDo } from '~/interfaces';
 
 type State = {
   todoAll: ToDo[];

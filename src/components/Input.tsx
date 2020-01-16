@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { ToDoParts } from '../utils/fragment';
+import { ToDoParts } from '~/utils/fragment';
 import { gql, useMutation } from '@apollo/client';
 
-import AppContext from '../components/AppContext';
+import AppContext from '~/components/AppContext';
 
 const Input: React.FC = () => {
   const { queryState } = React.useContext(AppContext);

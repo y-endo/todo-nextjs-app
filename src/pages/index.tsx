@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { NextPage } from 'next';
-import { ToDo } from '../interfaces';
-import Container from '../components/Container';
-import ToDoList from '../components/ToDoList';
-import ApolloClient from '../utils/ApolloClient';
-import { ToDoParts } from '../utils/fragment';
+import { ToDo } from '~/interfaces';
+import Container from '~/components/Container';
+import ToDoList from '~/components/ToDoList';
+import ApolloClient from '~/utils/ApolloClient';
+import { ToDoParts } from '~/utils/fragment';
 import { gql } from '@apollo/client';
+import { format } from 'date-fns';
 
 interface ToDoApolloQueryResult extends ToDo {
   __typename: string;
@@ -14,17 +15,21 @@ interface ToDoApolloQueryResult extends ToDo {
 type Props = {
   todoDay: ToDoApolloQueryResult[];
   todoMonth: ToDoApolloQueryResult[];
+  todoDead: ToDoApolloQueryResult[];
 };
 
 const Index: NextPage<Props> = props => {
   const title = 'ホーム';
+  const today = format(new Date(), 'yyyy-MM-dd');
   const content = (
     <>
       <div className="content">
         <p className="title">今日が期限のToDo</p>
         <ToDoList todoList={props.todoDay as ToDo[]} />
         <p className="title">今月が期限のToDo</p>
-        <ToDoList todoList={props.todoMonth as ToDo[]} />
+        <ToDoList todoList={props.todoMonth.filter(todo => todo.deadline !== today) as ToDo[]} />
+        <p className="title">期限切れのToDo</p>
+        <ToDoList todoList={props.todoDead as ToDo[]} />
       </div>
       <style jsx>{`
         .content {
@@ -59,6 +64,9 @@ Index.getInitialProps = async (): Promise<Props> => {
         ...ToDoParts
       }
       todoDay(year: ${now.getFullYear()}, month: ${now.getMonth() + 1}, date: ${now.getDate()}) {
+        ...ToDoParts
+      }
+      todoDead {
         ...ToDoParts
       }
     },

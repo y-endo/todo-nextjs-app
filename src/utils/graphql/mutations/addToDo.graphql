@@ -1,0 +1,9 @@
+mutation addToDo($title: String!, $description: String, $deadline: String) {
+  addToDo(title: $title, description: $description, deadline: $deadline) {
+    id
+    title
+    description
+    deadline
+    isComplete
+  }
+}

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { NextPage } from 'next';
-import AppContext from '../components/AppContext';
-import { ToDo } from '../interfaces';
-import Container from '../components/Container';
-import ToDoList from '../components/ToDoList';
+import AppContext from '~/components/AppContext';
+import { ToDo } from '~/interfaces';
+import Container from '~/components/Container';
+import ToDoList from '~/components/ToDoList';
 
 const Index: NextPage = () => {
   const { state } = React.useContext(AppContext);

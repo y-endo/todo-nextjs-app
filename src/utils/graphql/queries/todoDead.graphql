@@ -1,0 +1,9 @@
+query todoDead {
+  todoDead {
+    id
+    title
+    description
+    deadline
+    isComplete
+  }
+}

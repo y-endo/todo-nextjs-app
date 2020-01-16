@@ -1,0 +1,9 @@
+query todoAll {
+  todoAll {
+    id
+    title
+    description
+    deadline
+    isComplete
+  }
+}

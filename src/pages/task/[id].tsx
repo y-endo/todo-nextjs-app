@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { NextPage } from 'next';
-import { ToDo } from '../../interfaces';
-import Container from '../../components/Container';
-import ApolloClient from '../../utils/ApolloClient';
-import { ToDoParts } from '../../utils/fragment';
+import { ToDo } from '~/interfaces';
+import Container from '~/components/Container';
+import ApolloClient from '~/utils/ApolloClient';
+import { ToDoParts } from '~/utils/fragment';
 import { gql, useMutation } from '@apollo/client';
 
 interface ToDoApolloQueryResult extends ToDo {

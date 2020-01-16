@@ -1,0 +1,3 @@
+mutation editToDo($todo: EditToDo) {
+  editToDo(todo: $todo)
+}

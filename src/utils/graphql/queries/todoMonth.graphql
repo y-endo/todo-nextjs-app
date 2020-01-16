@@ -1,0 +1,9 @@
+query todoMonth($year: Int!, $month: Int!) {
+  todoMonth(year: $year, month: $month) {
+    id
+    title
+    description
+    deadline
+    isComplete
+  }
+}

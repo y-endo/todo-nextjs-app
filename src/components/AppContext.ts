@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ToDo } from '../interfaces';
+import { ToDo } from '~/interfaces';
 
 type StateType = {
   todoAll?: ToDo[];

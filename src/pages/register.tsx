@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NextPage } from 'next';
-import Container from '../components/Container';
-import Input from '../components/Input';
+import Container from '~/components/Container';
+import Input from '~/components/Input';
 
 const Register: NextPage = () => {
   const title = '登録';

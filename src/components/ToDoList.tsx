@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ToDo } from '../interfaces';
+import { ToDo } from '~/interfaces';
 import ToDoListItem from './ToDoListItem';
 
 type Props = {

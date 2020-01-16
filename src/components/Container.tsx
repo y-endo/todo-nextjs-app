@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Head from 'next/head';
 
-import '../assets/css/reset.css';
+import '~/assets/css/reset.css';
 import Layout from './Layout';
 
 type Props = {
