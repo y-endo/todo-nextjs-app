@@ -3,10 +3,12 @@ const withCSS = require('@zeit/next-css');
 
 module.exports = withCSS({
   pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
-  serverRuntimeConfig: {
-    PROJECT_ROOT: __dirname
-  },
   webpack: config => {
+    config.module.rules.push({
+      test: /\.graphql$/,
+      exclude: /node_modules/,
+      loader: 'graphql-tag/loader'
+    });
     config.resolve.alias['~'] = path.resolve(__dirname, './src');
     return config;
   }

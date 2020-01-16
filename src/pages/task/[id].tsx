@@ -1,29 +1,24 @@
 import * as React from 'react';
 import { NextPage } from 'next';
-import { ToDo } from '~/interfaces';
+import { ToDo } from '~/interfaces/graphql';
 import Container from '~/components/Container';
 import ApolloClient from '~/utils/ApolloClient';
-import { ToDoParts } from '~/utils/fragment';
 import { gql, useMutation } from '@apollo/client';
-
-interface ToDoApolloQueryResult extends ToDo {
-  __typename: string;
-}
+import mutationEditToDo from '~/utils/graphql/mutations/editToDo.graphql';
+import queryToDo from '~/utils/graphql/queries/todo.graphql';
 
 type State = {
-  todo: ToDoApolloQueryResult;
+  todo: ToDo;
   isEdit: boolean;
 };
 
-const Task: NextPage<ToDoApolloQueryResult> = props => {
+const Task: NextPage<ToDo> = props => {
   const inputTitle = React.useRef<HTMLInputElement>(null);
   const inputDescription = React.useRef<HTMLTextAreaElement>(null);
   const inputDeadline = React.useRef<HTMLInputElement>(null);
   const [state, setState] = React.useState<State>({ todo: props, isEdit: false });
   const [editToDo] = useMutation(gql`
-    mutation editToDo($todo: EditToDo) {
-      editToDo(todo: $todo)
-    }
+    ${mutationEditToDo}
   `);
   const title = props.title;
   const handleEditClick = async (isEdit: boolean): Promise<void> => {
@@ -120,7 +115,7 @@ const Task: NextPage<ToDoApolloQueryResult> = props => {
               placeholder="内容"
               ref={inputDescription}
               id="description"
-              value={state.todo.description}
+              value={state.todo.description as string}
               onChange={handleChange}
               readOnly={!state.isEdit}
               disabled={!state.isEdit}
@@ -132,7 +127,7 @@ const Task: NextPage<ToDoApolloQueryResult> = props => {
             ref={inputDeadline}
             readOnly={!state.isEdit}
             disabled={!state.isEdit}
-            value={state.todo.deadline}
+            value={state.todo.deadline as string}
             onChange={handleChange}
             id="deadline"
           />
@@ -235,17 +230,12 @@ const Task: NextPage<ToDoApolloQueryResult> = props => {
   return <Container title={title} content={content} />;
 };
 
-Task.getInitialProps = async (context): Promise<ToDoApolloQueryResult> => {
+Task.getInitialProps = async (context): Promise<ToDo> => {
   const query = gql`
-    {
-      todo(id: ${parseInt(context.query.id as string, 10)}) {
-        ...ToDoParts
-      }
-    }
-    ${ToDoParts}
+    ${queryToDo}
   `;
 
-  const { data } = await ApolloClient.query({ query });
+  const { data } = await ApolloClient.query({ query, variables: { id: parseInt(context.query.id as string, 10) } });
 
   return data.todo;
 };

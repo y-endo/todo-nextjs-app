@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { NextPage } from 'next';
-import { ToDo } from '~/interfaces';
+import { ToDo } from '~/interfaces/graphql';
 import Container from '~/components/Container';
 import ToDoList from '~/components/ToDoList';
 import ApolloClient from '~/utils/ApolloClient';
@@ -8,14 +8,10 @@ import { ToDoParts } from '~/utils/fragment';
 import { gql } from '@apollo/client';
 import { format } from 'date-fns';
 
-interface ToDoApolloQueryResult extends ToDo {
-  __typename: string;
-}
-
 type Props = {
-  todoDay: ToDoApolloQueryResult[];
-  todoMonth: ToDoApolloQueryResult[];
-  todoDead: ToDoApolloQueryResult[];
+  todoDay: ToDo[];
+  todoMonth: ToDo[];
+  todoDead: ToDo[];
 };
 
 const Index: NextPage<Props> = props => {

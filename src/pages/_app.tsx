@@ -4,8 +4,8 @@ import App from 'next/app';
 import AppContext from '~/components/AppContext';
 import { ApolloProvider, gql } from '@apollo/client';
 import ApolloClient from '~/utils/ApolloClient';
-import { ToDoParts } from '~/utils/fragment';
-import { ToDo } from '~/interfaces';
+import { ToDo } from '~/interfaces/graphql';
+import queryToDoAll from '~/utils/graphql/queries/todoAll.graphql';
 
 type State = {
   todoAll: ToDo[];
@@ -28,12 +28,7 @@ export default class extends App<any, any, State> {
   // GraphQLでstateをとってくる
   async queryState(): Promise<void> {
     const query = gql`
-      {
-        todoAll {
-          ...ToDoParts
-        }
-      }
-      ${ToDoParts}
+      ${queryToDoAll}
     `;
 
     const queryResult = await ApolloClient.query({ query });

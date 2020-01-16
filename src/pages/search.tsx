@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NextPage } from 'next';
 import AppContext from '~/components/AppContext';
-import { ToDo } from '~/interfaces';
+import { ToDo } from '~/interfaces/graphql';
 import Container from '~/components/Container';
 import ToDoList from '~/components/ToDoList';
 

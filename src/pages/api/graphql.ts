@@ -1,13 +1,11 @@
-import fs from 'fs';
-import path from 'path';
 import { format, startOfMonth, endOfMonth } from 'date-fns';
 import { LatestIdModel, ToDoModel } from '~/utils/Database';
 import { ApolloServer, gql } from 'apollo-server-micro';
-import { QueryResolvers, MutationResolvers } from '~/interfaces/graphql';
-import getConfig from 'next/config';
+import { QueryResolvers, MutationResolvers, Resolvers } from '~/interfaces/graphql';
+import schema from '~/utils/graphql/schema.graphql';
 
 const typeDefs = gql`
-  ${fs.readFileSync(path.join(getConfig().serverRuntimeConfig.PROJECT_ROOT, './src/utils/graphql/schema.graphql'))}
+  ${schema}
 `;
 
 const Query: QueryResolvers = {
@@ -91,7 +89,7 @@ const Mutation: MutationResolvers = {
   }
 };
 
-const resolvers = {
+const resolvers: Resolvers = {
   Query,
   Mutation
 };

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Link from 'next/link';
-import { ToDo } from '~/interfaces';
+import { ToDo } from '~/interfaces/graphql';
 
 type Props = {
   todo: ToDo;

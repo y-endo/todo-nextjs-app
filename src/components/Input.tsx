@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { ToDoParts } from '~/utils/fragment';
 import { gql, useMutation } from '@apollo/client';
+import mutationAddToDo from '~/utils/graphql/mutations/addToDo.graphql';
 
 import AppContext from '~/components/AppContext';
 
@@ -10,12 +10,7 @@ const Input: React.FC = () => {
   const inputDescription = React.useRef<HTMLTextAreaElement>(null);
   const inputDeadline = React.useRef<HTMLInputElement>(null);
   const [addToDo] = useMutation(gql`
-    mutation addToDo($title: String!, $description: String, $deadline: String) {
-      addToDo(title: $title, description: $description, deadline: $deadline) {
-        ...ToDoParts
-      }
-    }
-    ${ToDoParts}
+    ${mutationAddToDo}
   `);
 
   const handleSubmit = async (event: React.FormEvent): Promise<void> => {
