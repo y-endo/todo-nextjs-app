@@ -1,22 +1,41 @@
 import 'isomorphic-unfetch';
 import * as React from 'react';
 import App from 'next/app';
-import AppContext from '~/components/AppContext';
-import { ApolloProvider, gql } from '@apollo/client';
+import RootContext from '~/components/RootContext';
+import { ApolloProvider, gql, ApolloQueryResult } from '@apollo/client';
 import ApolloClient from '~/utils/ApolloClient';
 import { ToDo } from '~/interfaces/graphql';
 import queryToDoAll from '~/utils/graphql/queries/todoAll.graphql';
+import { AppContext } from 'next/app';
 
 type State = {
   todoAll: ToDo[];
 };
 
-export default class extends App<any, any, State> {
+export default class extends App<{}, {}, State> {
+  static async getInitialProps({ Component, ctx }: AppContext): Promise<{ pageProps: any; todoAll: ToDo[] }> {
+    let pageProps = {};
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx);
+    }
+
+    const query = gql`
+      ${queryToDoAll}
+    `;
+
+    const queryResult: ApolloQueryResult<State> = await ApolloClient.query({ query });
+    const { todoAll } = queryResult.data;
+
+    return {
+      pageProps,
+      todoAll
+    };
+  }
   constructor(props: any) {
     super(props);
 
     this.state = {
-      todoAll: []
+      todoAll: props.todoAll
     };
   }
 
@@ -44,9 +63,9 @@ export default class extends App<any, any, State> {
 
     return (
       <ApolloProvider client={ApolloClient}>
-        <AppContext.Provider value={{ state: this.state, queryState: this.queryState.bind(this) }}>
+        <RootContext.Provider value={{ rootState: this.state, queryRootState: this.queryState.bind(this) }}>
           <Component {...pageProps} />
-        </AppContext.Provider>
+        </RootContext.Provider>
       </ApolloProvider>
     );
   }

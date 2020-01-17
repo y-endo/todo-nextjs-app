@@ -84,7 +84,11 @@ const Mutation: MutationResolvers = {
   },
   async editToDo(_, args) {
     if (!args.todo) return false;
-    await ToDoModel.update({ id: args.todo.id }, { $set: { ...args.todo } });
+    await ToDoModel.updateOne({ id: args.todo.id }, { $set: { ...args.todo } });
+    return true;
+  },
+  async deleteToDo(_, args) {
+    await ToDoModel.deleteOne({ id: args.id });
     return true;
   }
 };

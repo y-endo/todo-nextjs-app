@@ -23,7 +23,15 @@ const Index: NextPage<Props> = props => {
         <p className="title">今日が期限のToDo</p>
         <ToDoList todoList={props.todoDay as ToDo[]} />
         <p className="title">今月が期限のToDo</p>
-        <ToDoList todoList={props.todoMonth.filter(todo => todo.deadline !== today) as ToDo[]} />
+        <ToDoList
+          todoList={
+            props.todoMonth.filter(todo => {
+              if (todo.deadline !== today && parseInt(String(todo.deadline).replace(/-/g, ''), 10) > parseInt(today.replace(/-/g, ''), 10)) {
+                return true;
+              }
+            }) as ToDo[]
+          }
+        />
         <p className="title">期限切れのToDo</p>
         <ToDoList todoList={props.todoDead as ToDo[]} />
       </div>

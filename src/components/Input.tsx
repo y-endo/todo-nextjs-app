@@ -2,10 +2,10 @@ import * as React from 'react';
 import { gql, useMutation } from '@apollo/client';
 import mutationAddToDo from '~/utils/graphql/mutations/addToDo.graphql';
 
-import AppContext from '~/components/AppContext';
+import RootContext from '~/components/RootContext';
 
 const Input: React.FC = () => {
-  const { queryState } = React.useContext(AppContext);
+  const { queryRootState } = React.useContext(RootContext);
   const inputTitle = React.useRef<HTMLInputElement>(null);
   const inputDescription = React.useRef<HTMLTextAreaElement>(null);
   const inputDeadline = React.useRef<HTMLInputElement>(null);
@@ -39,7 +39,7 @@ const Input: React.FC = () => {
         deadline
       }
     });
-    queryState();
+    queryRootState();
 
     inputTitle.current.value = '';
     inputDescription.current.value = '';

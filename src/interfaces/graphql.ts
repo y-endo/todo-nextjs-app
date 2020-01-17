@@ -27,6 +27,7 @@ export type Mutation = {
    __typename?: 'Mutation',
   addToDo?: Maybe<ToDo>,
   editToDo?: Maybe<Scalars['Boolean']>,
+  deleteToDo?: Maybe<Scalars['Boolean']>,
 };
 
 
@@ -39,6 +40,11 @@ export type MutationAddToDoArgs = {
 
 export type MutationEditToDoArgs = {
   todo?: Maybe<EditToDo>
+};
+
+
+export type MutationDeleteToDoArgs = {
+  id: Scalars['Int']
 };
 
 export type Query = {
@@ -91,6 +97,16 @@ export type AddToDoMutation = (
     { __typename?: 'ToDo' }
     & Pick<ToDo, 'id' | 'title' | 'description' | 'deadline' | 'isComplete'>
   )> }
+);
+
+export type DeleteToDoMutationVariables = {
+  id: Scalars['Int']
+};
+
+
+export type DeleteToDoMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteToDo'>
 );
 
 export type EditToDoMutationVariables = {
@@ -278,6 +294,7 @@ export type LatestIdResolvers<ContextType = any, ParentType extends ResolversPar
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   addToDo?: Resolver<Maybe<ResolversTypes['ToDo']>, ParentType, ContextType, RequireFields<MutationAddToDoArgs, 'title'>>,
   editToDo?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, MutationEditToDoArgs>,
+  deleteToDo?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteToDoArgs, 'id'>>,
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
