@@ -1,16 +1,12 @@
 import 'isomorphic-unfetch';
 import * as React from 'react';
 import App from 'next/app';
-import RootContext from '~/components/RootContext';
+import RootContext, { State } from '~/components/RootContext';
 import { ApolloProvider, gql, ApolloQueryResult } from '@apollo/client';
 import ApolloClient from '~/utils/ApolloClient';
 import { ToDo } from '~/interfaces/graphql';
 import queryToDoAll from '~/utils/graphql/queries/todoAll.graphql';
 import { AppContext } from 'next/app';
-
-type State = {
-  todoAll: ToDo[];
-};
 
 export default class extends App<{}, {}, State> {
   static async getInitialProps({ Component, ctx }: AppContext): Promise<{ pageProps: any; todoAll: ToDo[] }> {
@@ -28,7 +24,7 @@ export default class extends App<{}, {}, State> {
 
     return {
       pageProps,
-      todoAll
+      todoAll: todoAll as ToDo[]
     };
   }
   constructor(props: any) {

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { ToDo } from '~/interfaces/graphql';
 
-export type StateType = {
+export type State = {
   todoAll?: ToDo[];
 };
 
-type ContextType = { rootState: StateType; queryRootState: () => void };
+type ContextType = { rootState: State; queryRootState: () => void };
 
 const RootContext = React.createContext<ContextType>({ rootState: {}, queryRootState: () => ({}) });
 

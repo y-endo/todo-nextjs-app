@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { NextPage } from 'next';
-import RootContext, { StateType } from '~/components/RootContext';
+import RootContext, { State } from '~/components/RootContext';
 import { ToDo } from '~/interfaces/graphql';
 import Container from '~/components/Container';
 import ToDoList from '~/components/ToDoList';
 
 const Index: NextPage = () => {
   const { rootState } = React.useContext(RootContext);
-  const [state, setState] = React.useState<StateType>(rootState);
+  const [state, setState] = React.useState<State>(rootState);
   const title = '検索';
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (rootState.todoAll === void 0) return;

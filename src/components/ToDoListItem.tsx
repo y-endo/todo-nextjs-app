@@ -4,12 +4,16 @@ import { gql, useMutation } from '@apollo/client';
 import mutationEditToDo from '~/utils/graphql/mutations/editToDo.graphql';
 import mutationDeleteToDo from '~/utils/graphql/mutations/deleteToDo.graphql';
 import { ToDo } from '~/interfaces/graphql';
+import RootContext from '~/components/RootContext';
+import IndexContext from '~/components/IndexContext';
 
 type Props = {
   todo: ToDo;
 };
 
 const ToDoListItem: React.FC<Props> = ({ todo }) => {
+  const { queryRootState } = React.useContext(RootContext);
+  const { resetIndexState } = React.useContext(IndexContext);
   const [state, setState] = React.useState<ToDo>(todo);
   const [deleted, setDeleted] = React.useState<boolean>(false);
   const [editToDo] = useMutation(gql`
@@ -34,6 +38,9 @@ const ToDoListItem: React.FC<Props> = ({ todo }) => {
       ...state,
       isComplete: !state.isComplete
     });
+
+    resetIndexState();
+    queryRootState();
   };
 
   // 削除ボタンクリック
