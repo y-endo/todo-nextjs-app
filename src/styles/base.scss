@@ -1,5 +1,8 @@
 @charset "UTF-8";
 
+@import './variables.scss';
+@import './mixins.scss';
+
 html {
   font-size: 10px;
   font-family:
@@ -19,6 +22,10 @@ html {
 body {
   font-size: 1.6rem;
   line-height: 1.5;
+
+  @include sp {
+    font-size: 1.4rem;
+  }
 }
 
 a {

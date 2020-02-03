@@ -1,7 +1,14 @@
 @charset "UTF-8";
 
+@import '../variables.scss';
+@import '../mixins.scss';
+
 .content {
   padding: 60px 20px;
+
+  @include sp {
+    padding: 30px 15px;
+  }
 }
 
 .title {
@@ -12,6 +19,12 @@
   font-weight: bold;
   font-size: 2rem;
   line-height: 1;
+
+  @include sp {
+    margin: 20px auto 10px;
+    padding: 0;
+    font-size: 1.8rem;
+  }
 
   &:first-child {
     margin-top: 0;

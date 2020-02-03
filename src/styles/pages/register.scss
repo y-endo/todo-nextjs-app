@@ -1,5 +1,12 @@
 @charset "UTF-8";
 
+@import '../variables.scss';
+@import '../mixins.scss';
+
 .content {
   padding: 60px 20px;
+
+  @include sp {
+    padding: 30px 15px;
+  }
 }

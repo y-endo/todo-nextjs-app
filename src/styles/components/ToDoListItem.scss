@@ -1,5 +1,8 @@
 @charset "UTF-8";
 
+@import '../variables.scss';
+@import '../mixins.scss';
+
 .todo-list-item {
   position: relative;
   margin-top: 15px;
@@ -32,8 +35,8 @@
 
   &:checked {
     &::before {
-      background: #5432fc;
-      border-color: #5432fc;
+      background: $blue;
+      border-color: $blue;
     }
   }
 }
@@ -70,6 +73,6 @@
   cursor: pointer;
 
   &:hover {
-    color: #5432fc;
+    color: $blue;
   }
 }
