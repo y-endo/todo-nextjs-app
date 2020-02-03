@@ -1,11 +1,14 @@
 import * as React from 'react';
 import { NextPage } from 'next';
 import { ToDo } from '~/interfaces/graphql';
+import css from '~/styles/pages/task.scss';
 import Container from '~/components/Container';
 import ApolloClient from '~/utils/ApolloClient';
-import { gql, useMutation } from '@apollo/client';
+import gql from 'graphql-tag';
+import { useMutation } from '@apollo/react-hooks';
 import mutationEditToDo from '~/utils/graphql/mutations/editToDo.graphql';
 import queryToDo from '~/utils/graphql/queries/todo.graphql';
+import RootContext from '~/components/RootContext';
 
 type State = {
   todo: ToDo;
@@ -13,6 +16,7 @@ type State = {
 };
 
 const Task: NextPage<ToDo> = props => {
+  const { queryRootState } = React.useContext(RootContext);
   const inputTitle = React.useRef<HTMLInputElement>(null);
   const inputDescription = React.useRef<HTMLTextAreaElement>(null);
   const inputDeadline = React.useRef<HTMLInputElement>(null);
@@ -78,6 +82,8 @@ const Task: NextPage<ToDo> = props => {
         isComplete: !isComplete
       }
     });
+
+    queryRootState();
   };
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): Promise<void> => {
     setState({
@@ -92,139 +98,65 @@ const Task: NextPage<ToDo> = props => {
     event.preventDefault();
   };
   const content = (
-    <>
-      <div className="content">
-        <form className="box" onSubmit={handleSubmit}>
-          <label htmlFor="title">タスク名</label>
-          <p className="title">
-            <input
-              type="text"
-              ref={inputTitle}
-              placeholder="タスク名"
-              id="title"
-              value={state.todo.title}
-              onChange={handleChange}
-              readOnly={!state.isEdit}
-              disabled={!state.isEdit}
-              required
-            />
-          </p>
-          <label htmlFor="description">タスク内容</label>
-          <p className="description">
-            <textarea
-              placeholder="内容"
-              ref={inputDescription}
-              id="description"
-              value={state.todo.description as string}
-              onChange={handleChange}
-              readOnly={!state.isEdit}
-              disabled={!state.isEdit}
-            />
-          </p>
-          <label htmlFor="deadline">期限日</label>
+    <div className={css.content}>
+      <form className={css.box} onSubmit={handleSubmit}>
+        <label className={css.label} htmlFor="title">
+          タスク名
+        </label>
+        <p className={css.text}>
           <input
-            type="date"
-            ref={inputDeadline}
+            className={css.input}
+            type="text"
+            ref={inputTitle}
+            placeholder="タスク名"
+            id="title"
+            value={state.todo.title}
+            onChange={handleChange}
             readOnly={!state.isEdit}
             disabled={!state.isEdit}
-            value={state.todo.deadline as string}
-            onChange={handleChange}
-            id="deadline"
+            required
           />
-          <label>状態</label>
-          <p className="status">{state.todo.isComplete ? '完了' : '未完了'}</p>
-          <div className="button-box">
-            <button onClick={handleEditClick.bind(Task, state.isEdit)}>{state.isEdit ? '編集完了' : '編集'}</button>
-            <button onClick={handleCompleteClick.bind(Task, state.todo.isComplete)}>{state.todo.isComplete ? ' 未完了' : '完了'}</button>
-          </div>
-        </form>
-      </div>
-      <style jsx>{`
-        .content {
-          padding: 60px 20px;
-        }
-
-        .box {
-          display: block;
-          max-width: 800px;
-          padding: 20px;
-          box-sizing: border-box;
-          margin: 0 auto;
-          border: solid 1px #ccc;
-        }
-
-        label {
-          display: block;
-          font-size: 1.4rem;
-          margin-top: 20px;
-          padding: 3px 0 3px 7px;
-          border-left: solid 3px #5432fc;
-          line-height: 1;
-          color: #555;
-
-          + p {
-            margin-top: 5px;
-          }
-
-          &:first-child {
-            margin-top: 0;
-          }
-        }
-
-        p {
-          font-size: 2rem;
-        }
-
-        input,
-        textarea {
-          display: block;
-          border: solid 1px #c8bdff;
-          width: 100%;
-          height: 40px;
-          margin-top: 8px;
-          padding: 5px;
-          box-sizing: border-box;
-          font-size: 1.8rem;
-          background: #fff;
-          color: #000;
-        }
-
-        textarea {
-          height: 100px;
-          resize: vertical;
-        }
-
-        .button-box {
-          display: flex;
-          justify-content: center;
-          margin: 40px auto 0;
-        }
-
-        button {
-          border-radius: 20px;
-          border: solid 1px #5432fc;
-          background: #5432fc;
-          color: #fff;
-          padding: 12px 0;
-          margin-right: 30px;
-          font-size: 1.6rem;
-          font-weight: bold;
-          line-height: 1;
-          cursor: pointer;
-          transition: background-color 0.15s, color 0.15s;
-          width: 200px;
-
-          &:nth-last-child(1) {
-            margin-right: 0;
-          }
-
-          &:hover {
-            background: #fff;
-            color: #5432fc;
-          }
-        }
-      `}</style>
-    </>
+        </p>
+        <label className={css.label} htmlFor="description">
+          タスク内容
+        </label>
+        <p className={css.text}>
+          <textarea
+            className={css.textarea}
+            placeholder="内容"
+            ref={inputDescription}
+            id="description"
+            value={state.todo.description as string}
+            onChange={handleChange}
+            readOnly={!state.isEdit}
+            disabled={!state.isEdit}
+          />
+        </p>
+        <label className={css.label} htmlFor="deadline">
+          期限日
+        </label>
+        <input
+          className={css.input}
+          type="date"
+          ref={inputDeadline}
+          readOnly={!state.isEdit}
+          disabled={!state.isEdit}
+          value={state.todo.deadline as string}
+          onChange={handleChange}
+          id="deadline"
+        />
+        <label className={css.label}>状態</label>
+        <p className={css.text}>{state.todo.isComplete ? '完了' : '未完了'}</p>
+        <div className={css['button-box']}>
+          <button className={css.button} onClick={handleEditClick.bind(Task, state.isEdit)}>
+            {state.isEdit ? '編集完了' : '編集'}
+          </button>
+          <button className={css.button} onClick={handleCompleteClick.bind(Task, state.todo.isComplete)}>
+            {state.todo.isComplete ? ' 未完了' : '完了'}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 
   return <Container title={title} content={content} />;

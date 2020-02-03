@@ -1,4 +1,5 @@
 import * as React from 'react';
+import css from '~/styles/components/Layout.scss';
 
 import Header from './Header';
 import Navigation from './Navigation';
@@ -9,25 +10,13 @@ type Props = {
 };
 
 const Layout: React.FC<Props> = props => (
-  <>
-    <div className="container">
-      <div className="page">
-        <Header title={props.title} />
-        <main>{props.content}</main>
-      </div>
-      <Navigation />
+  <div className={css.container}>
+    <div className={css.page}>
+      <Header title={props.title} />
+      <main>{props.content}</main>
     </div>
-    <style jsx>{`
-      .container {
-        display: flex;
-        flex-direction: row-reverse;
-      }
-
-      .page {
-        flex: 1;
-      }
-    `}</style>
-  </>
+    <Navigation />
+  </div>
 );
 
 export default Layout;

@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { NextPage } from 'next';
+import css from '~/styles/pages/index.scss';
 import { ToDo } from '~/interfaces/graphql';
 import Container from '~/components/Container';
 import ToDoList from '~/components/ToDoList';
 import ApolloClient from '~/utils/ApolloClient';
 import IndexContext from '~/components/IndexContext';
 import { ToDoParts } from '~/utils/fragment';
-import { gql } from '@apollo/client';
+import gql from 'graphql-tag';
 import { format } from 'date-fns';
 
 export type State = {
@@ -54,45 +55,24 @@ const Index: NextPage<State> = props => {
     setState(data);
   };
   const content = (
-    <>
-      <IndexContext.Provider value={{ resetIndexState: resetState }}>
-        <div className="content">
-          <p className="title">今日が期限のToDo</p>
-          <ToDoList todoList={state.todoDay as ToDo[]} />
-          <p className="title">今月が期限のToDo</p>
-          <ToDoList
-            todoList={
-              state.todoMonth.filter(todo => {
-                if (todo.deadline !== today && parseInt(String(todo.deadline).replace(/-/g, ''), 10) > parseInt(today.replace(/-/g, ''), 10)) {
-                  return true;
-                }
-              }) as ToDo[]
-            }
-          />
-          <p className="title">期限切れのToDo</p>
-          <ToDoList todoList={state.todoDead as ToDo[]} />
-        </div>
-      </IndexContext.Provider>
-      <style jsx>{`
-        .content {
-          padding: 60px 20px;
-        }
-
-        .title {
-          max-width: 800px;
-          padding: 0 20px;
-          box-sizing: border-box;
-          font-size: 2rem;
-          font-weight: bold;
-          line-height: 1;
-          margin: 30px auto 15px;
-
-          &:first-child {
-            margin-top: 0;
+    <IndexContext.Provider value={{ resetIndexState: resetState }}>
+      <div className={css.content}>
+        <p className={css.title}>今日が期限のToDo</p>
+        <ToDoList todoList={state.todoDay as ToDo[]} />
+        <p className={css.title}>今月が期限のToDo</p>
+        <ToDoList
+          todoList={
+            state.todoMonth.filter(todo => {
+              if (todo.deadline !== today && parseInt(String(todo.deadline).replace(/-/g, ''), 10) > parseInt(today.replace(/-/g, ''), 10)) {
+                return true;
+              }
+            }) as ToDo[]
           }
-        }
-      `}</style>
-    </>
+        />
+        <p className={css.title}>期限切れのToDo</p>
+        <ToDoList todoList={state.todoDead as ToDo[]} />
+      </div>
+    </IndexContext.Provider>
   );
 
   return <Container title={title} content={content} />;

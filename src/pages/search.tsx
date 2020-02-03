@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { NextPage } from 'next';
+import css from '~/styles/pages/search.scss';
 import RootContext, { State } from '~/components/RootContext';
 import { ToDo } from '~/interfaces/graphql';
 import Container from '~/components/Container';
@@ -24,30 +25,10 @@ const Index: NextPage = () => {
     });
   };
   const content = (
-    <>
-      <div className="content">
-        <input type="text" placeholder="タスクを検索" onChange={handleChange} />
-        <ToDoList todoList={state.todoAll as ToDo[]} />
-      </div>
-      <style jsx>{`
-        .content {
-          padding: 60px 20px;
-        }
-
-        input {
-          display: block;
-          border: solid 2px #c8bdff;
-          max-width: 760px;
-          width: 100%;
-          height: 40px;
-          padding: 5px;
-          margin: 0 auto 20px;
-          box-sizing: border-box;
-          font-size: 1.5rem;
-          background: #fff;
-        }
-      `}</style>
-    </>
+    <div className={css.content}>
+      <input type="text" placeholder="タスクを検索" onChange={handleChange} className={css.input} />
+      <ToDoList todoList={state.todoAll as ToDo[]} />
+    </div>
   );
 
   return <Container title={title} content={content} />;

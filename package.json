@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
+    "stylelint": "stylelint --fix ./src/styles/*",
+    "dev": "next & onchange './src/styles/**/*.scss' -- npm run stylelint",
     "build": "next build",
     "start": "next start",
     "codegen": "graphql-codegen --config codegen.yml"
@@ -12,11 +13,16 @@
   "author": "YukiEndo",
   "license": "MIT",
   "dependencies": {
-    "@apollo/client": "^3.0.0-beta.20",
+    "@apollo/react-hooks": "^3.1.3",
     "@zeit/next-css": "^1.0.1",
+    "@zeit/next-sass": "^1.0.1",
+    "apollo-cache-inmemory": "^1.6.5",
+    "apollo-client": "^2.6.8",
+    "apollo-link-http": "^1.5.16",
     "apollo-server-micro": "^2.9.16",
     "date-fns": "^2.9.0",
     "graphql": "^14.5.8",
+    "graphql-tag": "^2.10.1",
     "isomorphic-unfetch": "^3.0.0",
     "mongoose": "^5.8.7",
     "next": "^9.1.7",
@@ -40,8 +46,13 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.17.0",
     "node-sass": "^4.13.0",
+    "onchange": "^6.1.0",
     "prettier": "^1.19.1",
-    "styled-jsx-plugin-sass": "^1.0.0",
+    "stylelint": "^13.0.0",
+    "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-config-standard": "^19.0.0",
+    "stylelint-order": "^4.0.0",
+    "stylelint-scss": "^3.14.2",
     "typescript": "^3.7.4"
   }
 }

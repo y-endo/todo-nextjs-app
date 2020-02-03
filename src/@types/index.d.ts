@@ -4,3 +4,8 @@ declare module '*.graphql' {
 
   export = Schema;
 }
+
+declare module '*.scss' {
+  const content: { [className: string]: string };
+  export = content;
+}

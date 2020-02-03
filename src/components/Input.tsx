@@ -1,6 +1,8 @@
 import * as React from 'react';
-import { gql, useMutation } from '@apollo/client';
+import gql from 'graphql-tag';
+import { useMutation } from '@apollo/react-hooks';
 import mutationAddToDo from '~/utils/graphql/mutations/addToDo.graphql';
+import css from '~/styles/components/Input.scss';
 
 import RootContext from '~/components/RootContext';
 
@@ -47,78 +49,21 @@ const Input: React.FC = () => {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="input-title">タスク名</label>
-        <input type="text" ref={inputTitle} placeholder="タスク名" id="input-title" required />
-        <label htmlFor="input-description">タスク内容</label>
-        <textarea placeholder="内容" ref={inputDescription} id="input-description" />
-        <label htmlFor="input-deadline">期限日</label>
-        <input type="date" ref={inputDeadline} id="input-deadline" />
-        <button>登録</button>
-      </form>
-      <style jsx>{`
-        form {
-          display: block;
-          max-width: 800px;
-          padding: 0 20px;
-          margin: 0 auto;
-          box-sizing: border-box;
-        }
-
-        label {
-          display: block;
-          font-size: 1.6rem;
-          margin-top: 30px;
-          padding: 5px 0 5px 7px;
-          line-height: 1;
-          border-left: solid 3px #5432fc;
-
-          &:first-child {
-            margin-top: 0;
-          }
-        }
-
-        input,
-        textarea {
-          display: block;
-          border: solid 1px #c8bdff;
-          width: 100%;
-          height: 40px;
-          padding: 5px;
-          margin-top: 8px;
-          box-sizing: border-box;
-          font-size: 1.5rem;
-          background: #fff;
-        }
-
-        textarea {
-          height: 100px;
-          resize: vertical;
-        }
-
-        button {
-          display: block;
-          width: 100%;
-          margin: 35px auto 0;
-          border: solid 1px #5432fc;
-          background: #5432fc;
-          color: #fff;
-          padding: 12px 0;
-          font-size: 1.6rem;
-          font-weight: bold;
-          line-height: 1;
-          border-radius: 20px;
-          cursor: pointer;
-          transition: background-color 0.15s, color 0.15s;
-
-          &:hover {
-            background: #fff;
-            color: #5432fc;
-          }
-        }
-      `}</style>
-    </>
+    <form onSubmit={handleSubmit} className={css.form}>
+      <label className={css.label} htmlFor="input-title">
+        タスク名
+      </label>
+      <input className={css.input} type="text" ref={inputTitle} placeholder="タスク名" id="input-title" required />
+      <label className={css.label} htmlFor="input-description">
+        タスク内容
+      </label>
+      <textarea className={css.textarea} placeholder="内容" ref={inputDescription} id="input-description" />
+      <label htmlFor="input-deadline" className={css.label}>
+        期限日
+      </label>
+      <input className={css.input} type="date" ref={inputDeadline} id="input-deadline" />
+      <button className={css.button}>登録</button>
+    </form>
   );
 };
 

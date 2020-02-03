@@ -1,4 +1,5 @@
 import * as React from 'react';
+import css from '~/styles/components/ToDoList.scss';
 
 import { ToDo } from '~/interfaces/graphql';
 import ToDoListItem from './ToDoListItem';
@@ -12,19 +13,7 @@ const ToDoList: React.FC<Props> = props => {
     return <ToDoListItem key={todo.id} todo={todo} />;
   });
 
-  return (
-    <>
-      <div className="todo-list">{items.length === 0 ? <p>タスクは有りません。</p> : items}</div>
-      <style jsx>{`
-        .todo-list {
-          max-width: 800px;
-          margin: 0 auto;
-          padding: 0 20px;
-          box-sizing: border-box;
-        }
-      `}</style>
-    </>
-  );
+  return <div className={css['todo-list']}>{items.length === 0 ? <p>タスクは有りません。</p> : items}</div>;
 };
 
 export default ToDoList;

@@ -1,0 +1,20 @@
+@charset "UTF-8";
+
+.nav {
+  flex: 0 0 250px;
+  height: 100vh;
+  border-right: solid 1px #ccc;
+}
+
+.link {
+  display: block;
+  padding: 15px 20px;
+  font-size: 1.8rem;
+  border-left: solid 5px transparent;
+
+  &--current {
+    font-weight: bold;
+    background: #f8f8f8;
+    border-left: solid 5px #5432fc;
+  }
+}
