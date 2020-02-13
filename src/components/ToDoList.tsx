@@ -11,10 +11,10 @@ type Props = {
 };
 
 const ToDoList: React.FC<Props> = props => {
-  const items = props.todoList.map(todo => {
+  const wrapTransition = (element: JSX.Element, options: { key?: string | number } = { key: '' }): JSX.Element => {
     return (
       <CSSTransition
-        key={todo.id}
+        key={options.key}
         classNames={{
           enter: transition['fade-enter'],
           enterActive: transition['fade-enter-active'],
@@ -25,12 +25,22 @@ const ToDoList: React.FC<Props> = props => {
         }}
         timeout={500}
       >
-        <ToDoListItem todo={todo} />
+        {element}
       </CSSTransition>
     );
-  });
+  };
+  const items =
+    props.todoList.length > 0
+      ? props.todoList.map(todo => {
+          return wrapTransition(<ToDoListItem todo={todo} />, { key: todo.id });
+        })
+      : wrapTransition(<p>タスクはありません。</p>);
 
-  return <div className={css['todo-list']}>{items.length === 0 ? <p>タスクはありません。</p> : <TransitionGroup>{items}</TransitionGroup>}</div>;
+  return (
+    <div className={css['todo-list']}>
+      <TransitionGroup>{items}</TransitionGroup>
+    </div>
+  );
 };
 
 export default ToDoList;
