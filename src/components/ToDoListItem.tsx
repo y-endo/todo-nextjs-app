@@ -17,7 +17,6 @@ const ToDoListItem: React.FC<Props> = ({ todo }) => {
   const { queryRootState } = React.useContext(RootContext);
   const { resetIndexState } = React.useContext(IndexContext);
   const [state, setState] = React.useState<ToDo>(todo);
-  const [deleted, setDeleted] = React.useState<boolean>(false);
   const [editToDo] = useMutation(gql`
     ${mutationEditToDo}
   `);
@@ -53,11 +52,9 @@ const ToDoListItem: React.FC<Props> = ({ todo }) => {
       }
     });
 
-    setDeleted(true);
+    resetIndexState();
+    queryRootState();
   };
-
-  // 削除済なら空を返す
-  if (deleted) return <></>;
 
   return (
     <div className={css['todo-list-item']}>

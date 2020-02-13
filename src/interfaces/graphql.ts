@@ -253,6 +253,8 @@ export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   info: GraphQLResolveInfo
 ) => Maybe<TTypes>;
 
+export type isTypeOfResolverFn<T = {}> = (obj: T, info: GraphQLResolveInfo) => boolean;
+
 export type NextResolverFn<T> = () => Promise<T>;
 
 export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs = {}> = (
@@ -289,6 +291,7 @@ export type ResolversParentTypes = {
 
 export type LatestIdResolvers<ContextType = any, ParentType extends ResolversParentTypes['LatestId'] = ResolversParentTypes['LatestId']> = {
   latestId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
@@ -312,6 +315,7 @@ export type ToDoResolvers<ContextType = any, ParentType extends ResolversParentT
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   deadline?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   isComplete?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
 export type Resolvers<ContextType = any> = {
